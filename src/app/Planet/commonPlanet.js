@@ -8,14 +8,12 @@ class CommonPlanet extends AbstractPlanet {
     }
 
     async init(){
-        
         const data = await swapiFunctions.genericRequest(`https://swapi.dev/api/planets/${this.getId()}`, 'GET', null, true);
         
         this.name = data.name;
         this.gravity = data.gravity;
 
         return this;
-
     }
 }
 

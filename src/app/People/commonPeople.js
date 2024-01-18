@@ -13,7 +13,6 @@ class CommonPeople extends AbstractPeople {
     }
 
     async init(){
-        
         const data = await swapiFunctions.genericRequest(`https://swapi.dev/api/people/${this.getId()}`, 'GET', null, true);
         
         this.name = data.name;

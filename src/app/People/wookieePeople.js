@@ -14,8 +14,7 @@ class WookieePeople extends AbstractPeople {
         this.id = id;
     }
 
-    async init(){
-        
+    async init(){    
         const data = await swapiFunctions.genericRequest(`https://swapi.dev/api/people/${this.getId()}?format=wookiee`, 'GET', null, true);
         
         this.name = data.whrascwo;
@@ -24,8 +23,7 @@ class WookieePeople extends AbstractPeople {
         this.homeworldId = _extractIdFromUrl(data.acooscwoohoorcanwa);
         
         return this;
-    }  
-        
+    }        
 }
 
 module.exports = WookieePeople;
