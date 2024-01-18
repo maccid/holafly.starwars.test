@@ -6,7 +6,6 @@ const _extractIdFromUrl = (url) => {
     return parseInt(parts[parts.length - 2], 10);
 }
 
-
 class WookieePeople extends AbstractPeople {
 
     constructor(id){

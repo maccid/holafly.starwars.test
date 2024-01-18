@@ -35,14 +35,16 @@ const applySwapiEndpoints = (server, app) => {
     });
 
     server.get('/hfswapi/getWeightOnPlanetRandom', async (req, res) => {
-        //Valores obtenido de la estadisticas mostrada en Swapi
-        const peopleId =  1;//Math.floor(Math.random() * 82) + 1; 
-        const planetId =  1;//Math.floor(Math.random() * 60) + 1;
 
+        //17 no esta
+        //61 falla el json
+        const peopleId =  Math.floor(Math.random() * 82) + 1; 
+        const planetId =  Math.floor(Math.random() * 60) + 1;
+
+        console.log(peopleId, planetId)
         const people = await People.peopleFactory(peopleId, req.query.format);
         const planet = await Planet.planetFactory(planetId, req.query.format);
 
-        //Se trata el fallo como una respuesta erronea para que sea devuelta en vez de lanzar un throw
         if(people.getHomeworldId() == planetId) {
             res.send({
                 success: false, 
@@ -50,8 +52,10 @@ const applySwapiEndpoints = (server, app) => {
             });
             return;
         }
+
+        const data = people.getWeightOnPlanet(planet);
            
-        res.send({people, planet});
+        res.send(data);
     });
 
     server.get('/hfswapi/getLogs',async (req, res) => {
