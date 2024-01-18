@@ -20,7 +20,7 @@ const applySwapiEndpoints = (server, app) => {
     server.get('/hfswapi/getPeople/:id', async (req, res) => {
    
         const people = await People.peopleFactory(req.params.id, req.query.format);
-        const planet = await Planet.planetFactory(people.getHomeworldId());
+        const planet = await Planet.planetFactory(people.getHomeworldId(), req.query.format);
 
         const data = {
             name: people.getName(),
@@ -35,7 +35,7 @@ const applySwapiEndpoints = (server, app) => {
 
     server.get('/hfswapi/getPlanet/:id', async (req, res) => {
 
-        const planet = await Planet.planetFactory(req.params.id);
+        const planet = await Planet.planetFactory(req.params.id, req.query.format);
 
         const data = {
             name: planet.getName(),
