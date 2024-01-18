@@ -26,10 +26,6 @@ class AbstractPeople {
         return this.height;
     }
 
-    getHomeworldName() {
-        return this.homeworldName;
-    }
-
     getHomeworldId() {
         return this.homeworldId;
     }
