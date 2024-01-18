@@ -1,15 +1,6 @@
 const People = require('../../app/People');
 const Planet = require('../../app/Planet');
 
-const _isWookieeFormat = (req) => {
-
-    if(req.query.format && req.query.format == 'wookiee'){
-        return true;
-    }
-    return false;
-}
-
-
 const applySwapiEndpoints = (server, app) => {
 
     server.get('/hfswapi/test', async (req, res) => {
