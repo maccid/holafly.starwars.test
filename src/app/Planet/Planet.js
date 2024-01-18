@@ -1,10 +1,23 @@
+const swapiFunctions = require('../swapiFunctions')
+
 class Planet {
     constructor(id){
-        throw new Error('To be implemented');
+        this.id = id;
     }
 
     async init(){
-        throw new Error('To be implemented');
+
+        const data = await swapiFunctions.genericRequest(`https://swapi.dev/api/planets/${this.getId()}`, 'GET', null, true);
+        
+        this.name = data.name;
+        this.gravity = data.gravity;
+
+        return data;
+        
+    }
+
+    getId() {
+        return this.id;
     }
 
     getName() {
@@ -15,3 +28,5 @@ class Planet {
         return this.gravity;
     }
 }
+
+module.exports = Planet;

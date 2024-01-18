@@ -30,11 +30,13 @@ class AbstractPeople {
         return this.homeworldName;
     }
 
-    getHomeworlId() {
-        return this.homeworlId;
+    getHomeworldId() {
+        return this.homeworldId;
     }
 
     getWeightOnPlanet(planetId){
         throw new Error('To be implemented');
     }
 }
+
+module.exports = AbstractPeople;
