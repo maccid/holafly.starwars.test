@@ -1,4 +1,4 @@
-const People = require('../../app/People/index');
+const People = require('../../app/People');
 
 const _isWookieeFormat = (req) => {
 
@@ -18,7 +18,13 @@ const applySwapiEndpoints = (server, app) => {
 
     server.get('/hfswapi/getPeople/:id', async (req, res) => {
    
-        const data = await People.peopleFactory(req.params.id, req.query.format);
+        const people = await People.peopleFactory(req.params.id, req.query.format);
+
+        const data = {
+            name: people.getName(),
+            mass: people.getMass(),
+            height: people.getHeight(),
+        }
 
         res.send(data);
         //res.sendStatus(501);
