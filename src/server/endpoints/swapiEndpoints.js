@@ -35,7 +35,23 @@ const applySwapiEndpoints = (server, app) => {
     });
 
     server.get('/hfswapi/getWeightOnPlanetRandom', async (req, res) => {
-        res.sendStatus(501);
+        //Valores obtenido de la estadisticas mostrada en Swapi
+        const peopleId =  1;//Math.floor(Math.random() * 82) + 1; 
+        const planetId =  1;//Math.floor(Math.random() * 60) + 1;
+
+        const people = await People.peopleFactory(peopleId, req.query.format);
+        const planet = await Planet.planetFactory(planetId, req.query.format);
+
+        //Se trata el fallo como una respuesta erronea para que sea devuelta en vez de lanzar un throw
+        if(people.getHomeworldId() == planetId) {
+            res.send({
+                success: false, 
+                text: 'Se esta intentando calcular el peso de `'+ people.getName() +'` en su planeta natal `'+ planet.getName()+'`'
+            });
+            return;
+        }
+           
+        res.send({people, planet});
     });
 
     server.get('/hfswapi/getLogs',async (req, res) => {
