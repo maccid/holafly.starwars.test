@@ -47,7 +47,6 @@ const applySwapiEndpoints = (server, app) => {
             const peopleId =  Math.floor(Math.random() * 82) + 1; 
             const planetId =  Math.floor(Math.random() * 60) + 1;
 
-            console.log(peopleId, planetId)
             const people = await People.peopleFactory(peopleId, req.query.format);
             const planet = await Planet.planetFactory(planetId, req.query.format);
 
