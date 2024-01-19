@@ -9,53 +9,62 @@ const applySwapiEndpoints = (server, app) => {
     });
 
     server.get('/hfswapi/getPeople/:id', async (req, res) => {
-        const people = await People.peopleFactory(req.params.id, req.query.format);
-        const planet = await Planet.planetFactory(people.getHomeworldId(), req.query.format);
+        try {   
+            const people = await People.peopleFactory(req.params.id, req.query.format);
+            const planet = await Planet.planetFactory(people.getHomeworldId(), req.query.format);
 
-        const data = {
-            name: people.getName(),
-            mass: people.getMass(),
-            height: people.getHeight(),
-            homeworldId: people.getHomeworldId(),
-            homeworldName: planet.getName()
-        }
+            const data = {
+                name: people.getName(),
+                mass: people.getMass(),
+                height: people.getHeight(),
+                homeworldId: people.getHomeworldId(),
+                homeworldName: planet.getName()
+            }
 
-        res.send(data);
+            res.send({success: true, data});
+        } catch (error) {
+            res.send({success: false, error: 'Personaje no encontrado'});
+        } 
     });
 
     server.get('/hfswapi/getPlanet/:id', async (req, res) => {
-        const planet = await Planet.planetFactory(req.params.id, req.query.format);
+        try { 
+            const planet = await Planet.planetFactory(req.params.id, req.query.format);
 
-        const data = {
-            name: planet.getName(),
-            gravity: planet.getGravity(),
-        }
+            const data = {
+                name: planet.getName(),
+                gravity: planet.getGravity(),
+            }
 
-        res.send(data);
+            res.send({success: true, data});
+        } catch (error) {
+            res.send({success: false, error: 'Planeta no encontrado'});
+        } 
     });
 
     server.get('/hfswapi/getWeightOnPlanetRandom', async (req, res) => {
+        try {
+            const peopleId =  Math.floor(Math.random() * 82) + 1; 
+            const planetId =  Math.floor(Math.random() * 60) + 1;
 
-        //17 no esta
-        //61 falla el json
-        const peopleId =  Math.floor(Math.random() * 82) + 1; 
-        const planetId =  Math.floor(Math.random() * 60) + 1;
+            console.log(peopleId, planetId)
+            const people = await People.peopleFactory(peopleId, req.query.format);
+            const planet = await Planet.planetFactory(planetId, req.query.format);
 
-        console.log(peopleId, planetId)
-        const people = await People.peopleFactory(peopleId, req.query.format);
-        const planet = await Planet.planetFactory(planetId, req.query.format);
+            if(people.getHomeworldId() == planetId) {
+                res.send({
+                    success: false, 
+                    error: 'Se esta intentando calcular el peso de `'+ people.getName() +'` en su planeta natal `'+ planet.getName()+'`'
+                });
+                return;
+            }
 
-        if(people.getHomeworldId() == planetId) {
-            res.send({
-                success: false, 
-                text: 'Se esta intentando calcular el peso de `'+ people.getName() +'` en su planeta natal `'+ planet.getName()+'`'
-            });
-            return;
-        }
-
-        const data = people.getWeightOnPlanet(planet);
-           
-        res.send(data);
+            const response = people.getWeightOnPlanet(planet);
+            
+            res.send(response);
+        } catch (error) {
+            res.send({success: false, error : 'Personaje no encontrado'});
+        } 
     });
 
     server.get('/hfswapi/getLogs',async (req, res) => {
